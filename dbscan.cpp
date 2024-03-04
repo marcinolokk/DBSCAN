@@ -1,5 +1,7 @@
 #include "dbscan.h"
 
+#include <numeric>
+
 int DBSCAN::run()
 {
     int clusterID = 1;
@@ -34,7 +36,7 @@ int DBSCAN::expandCluster(Point point, int clusterID)
         for( iterSeeds = clusterSeeds.begin(); iterSeeds != clusterSeeds.end(); ++iterSeeds)
         {
             m_points.at(*iterSeeds).clusterID = clusterID;
-            if (m_points.at(*iterSeeds).x == point.x && m_points.at(*iterSeeds).y == point.y && m_points.at(*iterSeeds).z == point.z )
+            if (m_points.at(*iterSeeds).x == point.x && m_points.at(*iterSeeds).y == point.y)
             {
                 indexCorePoint = index;
             }
@@ -84,9 +86,9 @@ vector<int> DBSCAN::calculateCluster(Point point)
     return clusterIndex;
 }
 
-inline double DBSCAN::calculateDistance(const Point& pointCore, const Point& pointTarget )
+inline double DBSCAN::calculateDistance(const Point& pointCore, const Point& pointTarget) const
 {
-    return pow(pointCore.x - pointTarget.x,2)+pow(pointCore.y - pointTarget.y,2)+pow(pointCore.z - pointTarget.z,2);
+    // initialize array with 2 dimensions
+    const std::array<int32_t, 2> vec {pointCore.x - pointTarget.x, pointCore.y - pointTarget.y};
+    return std::sqrt(std::pow(pointCore.x - pointTarget.x, 2) + std::pow(pointCore.y - pointTarget.y, 2)) + 2*std::abs(std::inner_product(vec.begin(), vec.end(), v_diagonal.begin(), 0));
 }
-
-

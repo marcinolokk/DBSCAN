@@ -19,7 +19,7 @@ void readBenchmarkData(vector<Point>& points)
 
     while (i < num_points)
     {
-          fscanf(stream, "%f,%f,%f,%d\n", &(p[i].x), &(p[i].y), &(p[i].z), &cluster);
+          fscanf(stream, "%f,%f,%d\n", &(p[i].x), &(p[i].y), &cluster);
           p[i].clusterID = UNCLASSIFIED;
           points.push_back(p[i]);
           ++i;
@@ -33,14 +33,14 @@ void printResults(vector<Point>& points, int num_points)
 {
     int i = 0;
     printf("Number of points: %u\n"
-        " x     y     z     cluster_id\n"
-        "-----------------------------\n"
+        " x     y     cluster_id\n"
+        "-----------------------\n"
         , num_points);
     while (i < num_points)
     {
-          printf("%5.2lf %5.2lf %5.2lf: %d\n",
+          printf("%5.2lf %5.2lf: %d\n",
                  points[i].x,
-                 points[i].y, points[i].z,
+                 points[i].y,
                  points[i].clusterID);
           ++i;
     }

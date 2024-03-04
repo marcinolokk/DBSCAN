@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <cmath>
+#include <array>
 
 #define UNCLASSIFIED -1
 #define CORE_POINT 1
@@ -15,8 +16,8 @@ using namespace std;
 
 typedef struct Point_
 {
-    float x, y, z;  // X, Y, Z position
-    int clusterID;  // clustered ID
+    u_int16_t x, y;  // X, Y, Z position
+    int clusterID = UNCLASSIFIED;  // clustered ID
 }Point;
 
 class DBSCAN {
@@ -32,11 +33,12 @@ public:
     int run();
     vector<int> calculateCluster(Point point);
     int expandCluster(Point point, int clusterID);
-    inline double calculateDistance(const Point& pointCore, const Point& pointTarget);
+    double calculateDistance(const Point& pointCore, const Point& pointTarget) const;
 
     int getTotalPointSize() {return m_pointSize;}
     int getMinimumClusterSize() {return m_minPoints;}
     int getEpsilonSize() {return m_epsilon;}
+    const std::array<int8_t, 2> v_diagonal = {1, -1};
     
 public:
     vector<Point> m_points;
